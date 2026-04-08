@@ -36,13 +36,14 @@ var authLoginCmd = &cobra.Command{
 			return err
 		}
 
-		listener, err := net.Listen("tcp", "localhost:0")
+		port, _ := cmd.Flags().GetInt("port")
+		listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 		if err != nil {
 			return fmt.Errorf("callback listenerの起動に失敗しました: %w", err)
 		}
 		defer listener.Close()
 
-		callbackURL := fmt.Sprintf("http://%s/callback", listener.Addr().String())
+		callbackURL := fmt.Sprintf("http://localhost:%d/callback", port)
 		oauthToken, oauthTokenSecret, err := zaim.RequestToken(ctx, consumerKey, consumerSecret, callbackURL)
 		if err != nil {
 			return fmt.Errorf("リクエストトークンの取得に失敗しました: %w", err)
@@ -130,6 +131,7 @@ type oauthCallbackResult struct {
 }
 
 func init() {
+	authLoginCmd.Flags().Int("port", 8080, "コールバック用ローカルサーバーのポート番号")
 	rootCmd.AddCommand(authCmd)
 	authCmd.AddCommand(authLoginCmd)
 	authCmd.AddCommand(authStatusCmd)
