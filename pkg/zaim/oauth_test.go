@@ -103,8 +103,6 @@ func TestGenerateSignature_shouldGenerateRFC5849HMACSHA1Signature_whenGivenKnown
 }
 
 func TestRequestToken_shouldPostOAuthAuthorizationHeaderAndParseTokenResponse_whenRequestSucceeds(t *testing.T) {
-	t.Parallel()
-
 	// Given: a request token endpoint that validates the outbound request.
 	const consumerKey = "consumer-key"
 	const consumerSecret = "consumer-secret"
@@ -181,8 +179,6 @@ func TestGetAuthorizeURL_shouldReturnZaimAuthorizeEndpoint_whenOAuthTokenIsProvi
 }
 
 func TestExchangeAccessToken_shouldPostOAuthAuthorizationHeaderAndParseAccessTokenResponse_whenRequestSucceeds(t *testing.T) {
-	t.Parallel()
-
 	// Given: an access token endpoint that validates the outbound request.
 	const consumerKey = "consumer-key"
 	const consumerSecret = "consumer-secret"

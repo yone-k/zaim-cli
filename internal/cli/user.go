@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/yone/zaim-cli/internal/formatter"
@@ -19,7 +18,7 @@ var userCmd = &cobra.Command{
 
 		switch OutputFormat {
 		case "json":
-			return formatter.OutputJSON(os.Stdout, user)
+			return formatter.OutputJSON(cmd.OutOrStdout(), user)
 		case "table":
 			header := []string{"ID", "ログイン名", "名前", "通貨", "入力回数", "継続日数"}
 			rows := [][]string{
@@ -32,7 +31,7 @@ var userCmd = &cobra.Command{
 					fmt.Sprintf("%d", user.RepeatCount),
 				},
 			}
-			formatter.RenderTable(os.Stdout, header, rows)
+			formatter.RenderTable(cmd.OutOrStdout(), header, rows)
 			return nil
 		default:
 			return fmt.Errorf("invalid output format %q", OutputFormat)

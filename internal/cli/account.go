@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -26,7 +25,7 @@ var (
 
 			switch OutputFormat {
 			case "json":
-				return formatter.OutputJSON(os.Stdout, accounts)
+				return formatter.OutputJSON(cmd.OutOrStdout(), accounts)
 			case "table":
 				header := []string{"ID", "名前", "ソート順", "有効"}
 				rows := make([][]string, 0, len(accounts))
@@ -38,7 +37,7 @@ var (
 						activeLabel(account.Active),
 					})
 				}
-				formatter.RenderTable(os.Stdout, header, rows)
+				formatter.RenderTable(cmd.OutOrStdout(), header, rows)
 				return nil
 			default:
 				return fmt.Errorf("invalid output format %q", OutputFormat)

@@ -232,6 +232,22 @@ func TestUpdateMoney_shouldPutOnlyChangedFields_whenOptionalPointersAreSet(t *te
 	}
 }
 
+func TestUpdateMoney_shouldReturnError_whenModeIsInvalid(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{}
+
+	err := client.UpdateMoney(context.Background(), 42, "invalid", nil)
+	if err == nil {
+		t.Fatal("UpdateMoney() error = nil, want error")
+	}
+
+	want := "invalid mode: invalid (must be payment, income, or transfer)"
+	if err.Error() != want {
+		t.Fatalf("UpdateMoney() error = %q, want %q", err.Error(), want)
+	}
+}
+
 func TestDeleteMoney_shouldDeleteResource_whenIDAndModeProvided(t *testing.T) {
 	t.Parallel()
 
@@ -254,6 +270,22 @@ func TestDeleteMoney_shouldDeleteResource_whenIDAndModeProvided(t *testing.T) {
 
 	if err := client.DeleteMoney(context.Background(), 99, "income"); err != nil {
 		t.Fatalf("DeleteMoney() error = %v", err)
+	}
+}
+
+func TestDeleteMoney_shouldReturnError_whenModeIsInvalid(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{}
+
+	err := client.DeleteMoney(context.Background(), 99, "invalid")
+	if err == nil {
+		t.Fatal("DeleteMoney() error = nil, want error")
+	}
+
+	want := "invalid mode: invalid (must be payment, income, or transfer)"
+	if err.Error() != want {
+		t.Fatalf("DeleteMoney() error = %q, want %q", err.Error(), want)
 	}
 }
 

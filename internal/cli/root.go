@@ -90,7 +90,7 @@ func resolveOAuthConfig() (zaim.OAuthConfig, error) {
 	fileConfig, err := config.Load()
 	if err != nil {
 		if !errors.Is(err, os.ErrNotExist) {
-			return zaim.OAuthConfig{}, err
+			return zaim.OAuthConfig{}, fmt.Errorf("failed to load config: %w", err)
 		}
 	} else {
 		applyMissingOAuthConfig(&cfg, zaim.OAuthConfig{

@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -21,23 +22,31 @@ type Config struct {
 }
 
 // GetConfigDir returns the configuration directory path.
-func GetConfigDir() string {
+func GetConfigDir() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return filepath.Join("~", configDirName)
+		return "", err
 	}
 
-	return filepath.Join(homeDir, configDirName)
+	return filepath.Join(homeDir, configDirName), nil
 }
 
 // GetConfigPath returns the full path to the config file.
-func GetConfigPath() string {
-	return filepath.Join(GetConfigDir(), configFileName)
+func GetConfigPath() (string, error) {
+	configDir, err := GetConfigDir()
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Join(configDir, configFileName), nil
 }
 
 // Load loads the configuration from the config file.
 func Load() (*Config, error) {
-	configPath := GetConfigPath()
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get config path: %w", err)
+	}
 
 	//nolint:gosec // Config file path is constructed internally, not from user input.
 	data, err := os.ReadFile(configPath)
@@ -55,7 +64,10 @@ func Load() (*Config, error) {
 
 // Save saves the configuration to the config file.
 func Save(cfg *Config) error {
-	configDir := GetConfigDir()
+	configDir, err := GetConfigDir()
+	if err != nil {
+		return fmt.Errorf("failed to get config directory: %w", err)
+	}
 	if err := os.MkdirAll(configDir, 0o700); err != nil {
 		return fmt.Errorf("failed to create config directory: %w", err)
 	}
@@ -65,7 +77,12 @@ func Save(cfg *Config) error {
 		return fmt.Errorf("failed to encode config: %w", err)
 	}
 
-	if err := os.WriteFile(GetConfigPath(), data, 0o600); err != nil {
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return fmt.Errorf("failed to get config path: %w", err)
+	}
+
+	if err := os.WriteFile(configPath, data, 0o600); err != nil {
 		return fmt.Errorf("failed to write config file: %w", err)
 	}
 
@@ -73,7 +90,19 @@ func Save(cfg *Config) error {
 }
 
 // Exists checks if the config file exists.
-func Exists() bool {
-	_, err := os.Stat(GetConfigPath())
-	return err == nil
+func Exists() (bool, error) {
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return false, fmt.Errorf("failed to get config path: %w", err)
+	}
+
+	_, err = os.Stat(configPath)
+	if err == nil {
+		return true, nil
+	}
+	if errors.Is(err, os.ErrNotExist) {
+		return false, nil
+	}
+
+	return false, fmt.Errorf("failed to stat config file: %w", err)
 }

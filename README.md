@@ -80,16 +80,28 @@ zaim currency list
 `pkg/zaim` パッケージとして独立したGoクライアントライブラリも提供:
 
 ```go
-import "github.com/yone/zaim-cli/pkg/zaim"
+import (
+    "context"
+    "fmt"
+    "log"
 
-client := zaim.New(zaim.OAuthConfig{
-    ConsumerKey:       "your-key",
-    ConsumerSecret:    "your-secret",
-    AccessToken:       "your-token",
-    AccessTokenSecret: "your-token-secret",
-})
+    "github.com/yone/zaim-cli/pkg/zaim"
+)
 
-user, err := client.VerifyAuth(ctx)
+func main() {
+    client := zaim.New(zaim.OAuthConfig{
+        ConsumerKey:       "your-key",
+        ConsumerSecret:    "your-secret",
+        AccessToken:       "your-token",
+        AccessTokenSecret: "your-token-secret",
+    })
+
+    user, err := client.VerifyAuth(context.Background())
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("User: %s (ID: %d)\n", user.Name, user.ID)
+}
 ```
 
 ## ライセンス

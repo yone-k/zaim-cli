@@ -152,6 +152,10 @@ func (c *Client) CreateTransfer(ctx context.Context, req *CreateTransferRequest)
 }
 
 func (c *Client) UpdateMoney(ctx context.Context, id int, mode string, req *UpdateMoneyRequest) error {
+	if err := validateMoneyMode(mode); err != nil {
+		return err
+	}
+
 	params := map[string]string{}
 	if req != nil {
 		addIntPointerParam(params, "amount", req.Amount)
@@ -175,6 +179,10 @@ func (c *Client) UpdateMoney(ctx context.Context, id int, mode string, req *Upda
 }
 
 func (c *Client) DeleteMoney(ctx context.Context, id int, mode string) error {
+	if err := validateMoneyMode(mode); err != nil {
+		return err
+	}
+
 	resp, err := c.do(ctx, http.MethodDelete, fmt.Sprintf("/v2/home/money/%s/%d", mode, id), nil)
 	if err != nil {
 		return err
@@ -210,4 +218,13 @@ func addIntPointerParam(params map[string]string, key string, value *int) {
 		return
 	}
 	params[key] = strconv.Itoa(*value)
+}
+
+func validateMoneyMode(mode string) error {
+	switch mode {
+	case "payment", "income", "transfer":
+		return nil
+	default:
+		return fmt.Errorf("invalid mode: %s (must be payment, income, or transfer)", mode)
+	}
 }

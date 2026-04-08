@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/yone/zaim-cli/internal/formatter"
@@ -25,7 +24,7 @@ var (
 
 			switch OutputFormat {
 			case "json":
-				return formatter.OutputJSON(os.Stdout, currencies)
+				return formatter.OutputJSON(cmd.OutOrStdout(), currencies)
 			case "table":
 				header := []string{"コード", "名前", "単位"}
 				rows := make([][]string, 0, len(currencies))
@@ -36,7 +35,7 @@ var (
 						currency.Unit,
 					})
 				}
-				formatter.RenderTable(os.Stdout, header, rows)
+				formatter.RenderTable(cmd.OutOrStdout(), header, rows)
 				return nil
 			default:
 				return fmt.Errorf("invalid output format %q", OutputFormat)
