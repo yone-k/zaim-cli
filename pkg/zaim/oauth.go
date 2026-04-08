@@ -87,7 +87,7 @@ func RequestToken(ctx context.Context, consumerKey, consumerSecret, callbackURL 
 }
 
 func GetAuthorizeURL(oauthToken string) string {
-	return "https://www.zaim.net/users/auth?oauth_token=" + oauthToken
+	return "https://auth.zaim.net/users/auth?oauth_token=" + oauthToken
 }
 
 func ExchangeAccessToken(ctx context.Context, consumerKey, consumerSecret, oauthToken, oauthTokenSecret, oauthVerifier string) (accessToken, accessTokenSecret string, err error) {

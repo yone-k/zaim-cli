@@ -169,7 +169,7 @@ func TestGetAuthorizeURL_shouldReturnZaimAuthorizeEndpoint_whenOAuthTokenIsProvi
 
 	// Given: a request token returned from the request-token step.
 	const oauthToken = "request-token"
-	const want = "https://www.zaim.net/users/auth?oauth_token=request-token"
+	const want = "https://auth.zaim.net/users/auth?oauth_token=request-token"
 
 	// When: the authorize URL is constructed.
 	got := GetAuthorizeURL(oauthToken)
