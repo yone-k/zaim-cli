@@ -233,7 +233,7 @@ var moneyDeleteCmd = &cobra.Command{
 
 		mode := args[1]
 
-		fmt.Print("本当に削除しますか? (y/N): ")
+		_, _ = fmt.Fprint(cmd.OutOrStdout(), "本当に削除しますか? (y/N): ")
 
 		var answer string
 		if _, err := fmt.Scan(&answer); err != nil {

@@ -85,7 +85,7 @@ func TruncateString(s string, max int) string {
 	if max <= 3 {
 		return string(runes[:max])
 	}
-	return string(runes[:max]) + "..."
+	return string(runes[:max-3]) + "..."
 }
 
 // IsColorEnabled reports whether colored output should be enabled.

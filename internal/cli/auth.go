@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"os/exec"
@@ -26,12 +27,12 @@ var authLoginCmd = &cobra.Command{
 		ctx := cmd.Context()
 
 		var err error
-		consumerKey, err = promptCredential("Consumer Key", consumerKey)
+		consumerKey, err = promptCredential(cmd.OutOrStdout(), "Consumer Key", consumerKey)
 		if err != nil {
 			return err
 		}
 
-		consumerSecret, err = promptCredential("Consumer Secret", consumerSecret)
+		consumerSecret, err = promptCredential(cmd.OutOrStdout(), "Consumer Secret", consumerSecret)
 		if err != nil {
 			return err
 		}
@@ -137,12 +138,12 @@ func init() {
 	authCmd.AddCommand(authStatusCmd)
 }
 
-func promptCredential(label, current string) (string, error) {
+func promptCredential(w io.Writer, label, current string) (string, error) {
 	if current != "" {
 		return current, nil
 	}
 
-	fmt.Printf("%s: ", label)
+	fmt.Fprintf(w, "%s: ", label)
 
 	var value string
 	if _, err := fmt.Scan(&value); err != nil {
