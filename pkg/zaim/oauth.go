@@ -163,7 +163,9 @@ func doOAuthPOST(ctx context.Context, endpoint string, authParams map[string]str
 func buildAuthorizationHeader(params map[string]string) string {
 	keys := make([]string, 0, len(params))
 	for key := range params {
-		keys = append(keys, key)
+		if strings.HasPrefix(key, "oauth_") {
+			keys = append(keys, key)
+		}
 	}
 	sort.Strings(keys)
 

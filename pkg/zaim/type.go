@@ -66,6 +66,8 @@ type Account struct {
 }
 
 type Currency struct {
-	Code string `json:"code"`
-	Name string `json:"name"`
+	CurrencyCode string `json:"currency_code"`
+	Name         string `json:"name"`
+	Unit         string `json:"unit"`
+	Point        int    `json:"point"`
 }

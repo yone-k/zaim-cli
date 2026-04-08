@@ -78,9 +78,10 @@ func (c *Client) do(ctx context.Context, method string, path string, params map[
 		}
 	}
 
+	signatureURL := endpoint.Scheme + "://" + endpoint.Host + endpoint.Path
 	signatureParams["oauth_signature"] = GenerateSignature(
 		method,
-		endpoint.String(),
+		signatureURL,
 		signatureParams,
 		c.oauthConfig.ConsumerSecret,
 		c.oauthConfig.AccessTokenSecret,

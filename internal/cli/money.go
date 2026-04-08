@@ -74,6 +74,10 @@ var moneyListCmd = &cobra.Command{
 			return err
 		}
 
+		if moneyListLimit > 0 && len(records) > moneyListLimit {
+			records = records[:moneyListLimit]
+		}
+
 		if OutputFormat == formatter.FormatJSON {
 			return formatter.OutputJSON(cmd.OutOrStdout(), records)
 		}

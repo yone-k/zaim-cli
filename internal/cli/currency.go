@@ -27,12 +27,13 @@ var (
 			case "json":
 				return formatter.OutputJSON(os.Stdout, currencies)
 			case "table":
-				header := []string{"コード", "名前"}
+				header := []string{"コード", "名前", "単位"}
 				rows := make([][]string, 0, len(currencies))
 				for _, currency := range currencies {
 					rows = append(rows, []string{
-						currency.Code,
+						currency.CurrencyCode,
 						currency.Name,
+						currency.Unit,
 					})
 				}
 				formatter.RenderTable(os.Stdout, header, rows)

@@ -19,7 +19,7 @@ func TestListCurrencies(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"currencies":[{"code":"JPY","name":"Japanese Yen"}]}`))
+		_, _ = w.Write([]byte(`{"currencies":[{"currency_code":"JPY","name":"Japanese Yen","unit":"円","point":0}]}`))
 	}))
 	defer server.Close()
 
@@ -32,8 +32,8 @@ func TestListCurrencies(t *testing.T) {
 	if len(currencies) != 1 {
 		t.Fatalf("len(currencies) = %d, want %d", len(currencies), 1)
 	}
-	if currencies[0].Code != "JPY" {
-		t.Fatalf("currencies[0].Code = %q, want %q", currencies[0].Code, "JPY")
+	if currencies[0].CurrencyCode != "JPY" {
+		t.Fatalf("currencies[0].CurrencyCode = %q, want %q", currencies[0].CurrencyCode, "JPY")
 	}
 	if currencies[0].Name != "Japanese Yen" {
 		t.Fatalf("currencies[0].Name = %q, want %q", currencies[0].Name, "Japanese Yen")
