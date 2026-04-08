@@ -19,7 +19,7 @@ func TestListUserAccounts(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"accounts":[{"id":100,"name":"Wallet","mode":"payment","sort":1,"active":1,"created":"2024-05-01","modified":"2024-05-02"}]}`))
+		_, _ = w.Write([]byte(`{"accounts":[{"id":100,"name":"Wallet","modified":"2024-05-02","sort":1,"active":1,"local_id":0,"website_id":0,"parent_account_id":0}]}`))
 	}))
 	defer server.Close()
 

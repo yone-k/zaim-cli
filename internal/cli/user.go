@@ -21,16 +21,15 @@ var userCmd = &cobra.Command{
 		case "json":
 			return formatter.OutputJSON(os.Stdout, user)
 		case "table":
-			header := []string{"ID", "ログイン名", "名前", "プロフィール画像URL", "入力回数", "継続日数", "登録日"}
+			header := []string{"ID", "ログイン名", "名前", "通貨", "入力回数", "継続日数"}
 			rows := [][]string{
 				{
 					fmt.Sprintf("%d", user.ID),
 					user.Login,
 					user.Name,
-					user.ProfileImageURL,
+					user.CurrencyCode,
 					fmt.Sprintf("%d", user.InputCount),
 					fmt.Sprintf("%d", user.RepeatCount),
-					fmt.Sprintf("%d", user.Day),
 				},
 			}
 			formatter.RenderTable(os.Stdout, header, rows)

@@ -91,13 +91,15 @@ var moneyListCmd = &cobra.Command{
 				strconv.Itoa(record.CategoryID),
 				strconv.Itoa(record.GenreID),
 				strconv.Itoa(record.Amount),
+				record.Name,
+				record.Place,
 				record.Comment,
 			})
 		}
 
 		formatter.RenderTable(
 			cmd.OutOrStdout(),
-			[]string{"ID", "日付", "種別", "カテゴリID", "ジャンルID", "金額", "コメント"},
+			[]string{"ID", "日付", "種別", "カテゴリID", "ジャンルID", "金額", "名前", "場所", "コメント"},
 			rows,
 		)
 

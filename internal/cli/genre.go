@@ -30,14 +30,13 @@ var (
 			case "json":
 				return formatter.OutputJSON(os.Stdout, genres)
 			case "table":
-				header := []string{"ID", "名前", "カテゴリID", "種別", "ソート順", "有効"}
+				header := []string{"ID", "名前", "カテゴリID", "ソート順", "有効"}
 				rows := make([][]string, 0, len(genres))
 				for _, genre := range genres {
 					rows = append(rows, []string{
 						strconv.Itoa(genre.ID),
 						genre.Name,
 						strconv.Itoa(genre.CategoryID),
-						genre.Mode,
 						strconv.Itoa(genre.Sort),
 						activeLabel(genre.Active),
 					})
@@ -67,14 +66,13 @@ var (
 			case "json":
 				return formatter.OutputJSON(os.Stdout, genres)
 			case "table":
-				header := []string{"ID", "名前", "カテゴリID", "種別", "ソート順", "有効"}
+				header := []string{"ID", "名前", "カテゴリID", "ソート順", "有効"}
 				rows := make([][]string, 0, len(genres))
 				for _, genre := range genres {
 					rows = append(rows, []string{
 						strconv.Itoa(genre.ID),
 						genre.Name,
 						strconv.Itoa(genre.CategoryID),
-						genre.Mode,
 						strconv.Itoa(genre.Sort),
 						activeLabel(genre.Active),
 					})

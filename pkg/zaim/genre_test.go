@@ -19,7 +19,7 @@ func TestListUserGenres(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"genres":[{"id":10,"name":"Groceries","category_id":1,"mode":"payment","sort":1,"active":1,"created":"2024-03-01","modified":"2024-03-02"}]}`))
+		_, _ = w.Write([]byte(`{"genres":[{"id":10,"name":"Groceries","sort":1,"active":1,"category_id":1,"parent_genre_id":0,"modified":"2024-03-02"}]}`))
 	}))
 	defer server.Close()
 
@@ -78,7 +78,7 @@ func TestListDefaultGenres(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"genres":[{"id":11,"name":"Transport","category_id":2,"mode":"payment","sort":2,"active":1,"created":"2024-04-01","modified":"2024-04-02"}]}`))
+		_, _ = w.Write([]byte(`{"genres":[{"id":11,"name":"Transport","sort":2,"active":1,"category_id":2,"parent_genre_id":0,"modified":"2024-04-02"}]}`))
 	}))
 	defer server.Close()
 

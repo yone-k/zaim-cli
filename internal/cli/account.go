@@ -28,13 +28,12 @@ var (
 			case "json":
 				return formatter.OutputJSON(os.Stdout, accounts)
 			case "table":
-				header := []string{"ID", "名前", "種別", "ソート順", "有効"}
+				header := []string{"ID", "名前", "ソート順", "有効"}
 				rows := make([][]string, 0, len(accounts))
 				for _, account := range accounts {
 					rows = append(rows, []string{
 						strconv.Itoa(account.ID),
 						account.Name,
-						account.Mode,
 						strconv.Itoa(account.Sort),
 						activeLabel(account.Active),
 					})

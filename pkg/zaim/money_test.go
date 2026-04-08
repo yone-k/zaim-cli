@@ -32,7 +32,7 @@ func TestListMoney_shouldSendQueryParamsAndDecodeResponse_whenOptionsProvided(t 
 		assertQueryValue(t, query, "page", "2")
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"money":[{"id":1,"mode":"payment","date":"2026-04-01","category_id":10,"genre_id":20,"amount":1200,"comment":"lunch"}]}`))
+		_, _ = w.Write([]byte(`{"money":[{"id":1,"mode":"payment","date":"2026-04-01","category_id":10,"genre_id":20,"amount":1200,"comment":"lunch","name":"","receipt_id":0,"place":""}]}`))
 	}))
 	defer server.Close()
 

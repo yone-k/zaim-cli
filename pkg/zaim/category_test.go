@@ -19,7 +19,7 @@ func TestListUserCategories(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"categories":[{"id":1,"name":"Food","mode":"payment","sort":1,"active":1,"created":"2024-01-01","modified":"2024-01-02"}]}`))
+		_, _ = w.Write([]byte(`{"categories":[{"id":1,"name":"Food","mode":"payment","sort":1,"parent_category_id":0,"active":1,"modified":"2024-01-02"}]}`))
 	}))
 	defer server.Close()
 
@@ -78,7 +78,7 @@ func TestListDefaultCategories(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"categories":[{"id":2,"name":"Utilities","mode":"payment","sort":2,"active":1,"created":"2024-02-01","modified":"2024-02-02"}]}`))
+		_, _ = w.Write([]byte(`{"categories":[{"id":2,"name":"Utilities","mode":"payment","sort":2,"parent_category_id":0,"active":1,"modified":"2024-02-02"}]}`))
 	}))
 	defer server.Close()
 
