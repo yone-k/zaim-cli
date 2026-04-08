@@ -30,7 +30,7 @@ var userCmd = &cobra.Command{
 					user.ProfileImageURL,
 					fmt.Sprintf("%d", user.InputCount),
 					fmt.Sprintf("%d", user.RepeatCount),
-					user.Day,
+					fmt.Sprintf("%d", user.Day),
 				},
 			}
 			formatter.RenderTable(os.Stdout, header, rows)

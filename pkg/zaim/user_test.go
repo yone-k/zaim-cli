@@ -30,7 +30,7 @@ func TestVerifyAuth_Success(t *testing.T) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"me":{"id":1,"login":"test","name":"Test User","profile_image_url":"https://example.com/avatar.png","input_count":10,"repeat_count":2,"day":"2026-04-08"}}`))
+		_, _ = w.Write([]byte(`{"me":{"id":1,"login":"test","name":"Test User","profile_image_url":"https://example.com/avatar.png","input_count":10,"repeat_count":2,"day":5}}`))
 	}))
 	defer server.Close()
 
@@ -54,7 +54,7 @@ func TestVerifyAuth_Success(t *testing.T) {
 		ProfileImageURL: "https://example.com/avatar.png",
 		InputCount:      10,
 		RepeatCount:     2,
-		Day:             "2026-04-08",
+		Day:             5,
 	}
 
 	if *user != *want {

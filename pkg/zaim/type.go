@@ -14,7 +14,7 @@ type User struct {
 	ProfileImageURL string `json:"profile_image_url"`
 	InputCount      int    `json:"input_count"`
 	RepeatCount     int    `json:"repeat_count"`
-	Day             string `json:"day"`
+	Day             int    `json:"day"`
 }
 
 type Money struct {
