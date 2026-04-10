@@ -1,6 +1,6 @@
 # Binaries
-zaim
-zaim-cli
+/zaim
+/zaim-cli
 *.exe
 *.exe~
 *.dll

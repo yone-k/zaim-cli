@@ -1,0 +1,44 @@
+version: 2
+
+project_name: zaim-cli
+
+builds:
+  - main: ./cmd/zaim-cli
+    binary: zaim-cli
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    goamd64:
+      - v1
+    ldflags:
+      - -s -w
+      - -X github.com/yone/zaim-cli/internal/version.Version={{.Version}}
+      - -X github.com/yone/zaim-cli/internal/version.Commit={{.Commit}}
+      - -X github.com/yone/zaim-cli/internal/version.Date={{.Date}}
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+release:
+  github:
+    owner: yone-k
+    name: zaim-cli
+  draft: false
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+checksum:
+  name_template: checksums.txt

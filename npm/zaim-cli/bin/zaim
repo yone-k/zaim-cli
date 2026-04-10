@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+"use strict";
+
+const { spawnSync } = require("child_process");
+const path = require("path");
+
+function getBinaryPath() {
+  // Allow override via environment variable
+  const envPath = process.env.ZAIM_BINARY_PATH;
+  if (envPath) {
+    return envPath;
+  }
+
+  return path.join(__dirname, "..", "zaim-cli");
+}
+
+const binaryPath = getBinaryPath();
+const result = spawnSync(binaryPath, process.argv.slice(2), {
+  stdio: "inherit",
+});
+
+if (result.error) {
+  console.error(`エラー: バイナリの実行に失敗しました: ${result.error.message}`);
+  console.error(
+    "npm install を再実行するか、ZAIM_BINARY_PATH 環境変数でパスを指定してください。"
+  );
+  process.exit(1);
+}
+
+process.exit(result.status ?? 1);

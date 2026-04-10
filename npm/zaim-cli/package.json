@@ -1,0 +1,26 @@
+{
+  "name": "zaim-cli",
+  "version": "0.0.0",
+  "description": "CLI tool and Go SDK for the Zaim household accounting API",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yone-k/zaim-cli.git"
+  },
+  "bin": {
+    "zaim-cli": "./bin/zaim"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "keywords": [
+    "zaim",
+    "cli",
+    "household",
+    "accounting",
+    "finance"
+  ]
+}
