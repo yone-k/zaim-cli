@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/yone/zaim-cli/internal/config"
-	"github.com/yone/zaim-cli/internal/version"
-	"github.com/yone/zaim-cli/pkg/zaim"
+	"github.com/yone-k/zaim-cli/internal/config"
+	"github.com/yone-k/zaim-cli/internal/version"
+	"github.com/yone-k/zaim-cli/pkg/zaim"
 )
 
 var (
