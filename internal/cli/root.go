@@ -3,11 +3,14 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/yone-k/zaim-cli/internal/config"
+	"github.com/yone-k/zaim-cli/internal/update"
 	"github.com/yone-k/zaim-cli/internal/version"
 	"github.com/yone-k/zaim-cli/pkg/zaim"
 )
@@ -20,14 +23,17 @@ var (
 	consumerSecret    string
 	accessToken       string
 	accessTokenSecret string
+	updateResultCh    <-chan *update.CheckResult
 )
 
 var rootCmd = &cobra.Command{
-	Use:          "zaim",
+	Use:          "zaim-cli",
 	Short:        "Zaim API CLI tool",
 	SilenceUsage: true,
 	Version:      buildVersion(),
 	PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
+		updateResultCh = startUpdateCheck()
+
 		OutputFormat = strings.ToLower(OutputFormat)
 		if OutputFormat != "table" && OutputFormat != "json" {
 			return fmt.Errorf("invalid output format %q: must be table or json", OutputFormat)
@@ -47,6 +53,17 @@ var rootCmd = &cobra.Command{
 		}
 
 		Client = zaim.New(oauthConfig)
+
+		return nil
+	},
+	PersistentPostRunE: func(_ *cobra.Command, _ []string) error {
+		if updateResultCh == nil {
+			return nil
+		}
+
+		if result := <-updateResultCh; result != nil {
+			fmt.Fprintln(os.Stderr, result.Message)
+		}
 
 		return nil
 	},
@@ -127,5 +144,23 @@ func hasCompleteOAuthConfig(cfg zaim.OAuthConfig) bool {
 }
 
 func buildVersion() string {
-	return fmt.Sprintf("%s (commit: %s, date: %s)", version.Version, version.Commit, version.Date)
+	return version.Version
+}
+
+func startUpdateCheck() <-chan *update.CheckResult {
+	resultCh := make(chan *update.CheckResult, 1)
+
+	go func() {
+		configDir, err := config.GetConfigDir()
+		if err != nil {
+			resultCh <- nil
+			return
+		}
+
+		cacheFilePath := filepath.Join(configDir, "update-check.json")
+		result, _ := update.CheckForUpdate(version.Version, cacheFilePath, http.DefaultClient)
+		resultCh <- result
+	}()
+
+	return resultCh
 }
