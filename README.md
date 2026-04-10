@@ -5,7 +5,7 @@ Zaim家計簿APIを操作するCLIツール。Go SDKとCLIを提供。
 ## インストール
 
 ```bash
-go install github.com/yone/zaim-cli/cmd/zaim@latest
+go install github.com/yone/zaim-cli/cmd/zaim-cli@latest
 ```
 
 ## セットアップ
