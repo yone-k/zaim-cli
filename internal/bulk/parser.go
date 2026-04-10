@@ -87,7 +87,16 @@ func parseJSONFile(filePath string) ([]Row, error) {
 	for i, value := range values {
 		fields := make(map[string]string, len(value))
 		for key, field := range value {
-			fields[key] = fmt.Sprintf("%v", field)
+			switch v := field.(type) {
+			case float64:
+				if v == float64(int64(v)) {
+					fields[key] = fmt.Sprintf("%d", int64(v))
+				} else {
+					fields[key] = fmt.Sprintf("%v", v)
+				}
+			default:
+				fields[key] = fmt.Sprintf("%v", v)
+			}
 		}
 
 		rows = append(rows, Row{
