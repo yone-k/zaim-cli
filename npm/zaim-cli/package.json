@@ -1,5 +1,5 @@
 {
-  "name": "zaim-cli",
+  "name": "@yone_k/zaim-cli",
   "version": "0.0.0",
   "description": "CLI tool and Go SDK for the Zaim household accounting API",
   "license": "MIT",
