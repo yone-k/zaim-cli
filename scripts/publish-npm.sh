@@ -58,7 +58,7 @@ echo "Working directory: ${WORK_DIR}"
 
 # ---- メインパッケージの準備 ------------------------------------------------
 echo ""
-echo "=== Preparing zaim-cli ==="
+echo "=== Preparing @yone-k/zaim-cli ==="
 
 MAIN_PKG_DIR="${WORK_DIR}/zaim-cli"
 cp -r "${PROJECT_ROOT}/npm/zaim-cli" "$MAIN_PKG_DIR"
@@ -85,7 +85,7 @@ if [[ "$DRY_RUN" == "true" ]]; then
 fi
 
 echo ""
-echo "=== Publishing zaim-cli@${VERSION} ==="
+echo "=== Publishing @yone-k/zaim-cli@${VERSION} ==="
 cd "$MAIN_PKG_DIR"
 if ! output=$(npm publish --access public 2>&1); then
   if echo "$output" | grep -q "You cannot publish over the previously published versions"; then
