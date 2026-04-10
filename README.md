@@ -15,7 +15,7 @@ npm install -g @yone_k/zaim-cli
 Go 1.26 以上が必要です。
 
 ```bash
-go install github.com/yone/zaim-cli/cmd/zaim-cli@latest
+go install github.com/yone-k/zaim-cli/cmd/zaim-cli@latest
 ```
 
 ## セットアップ
@@ -95,7 +95,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/yone/zaim-cli/pkg/zaim"
+    "github.com/yone-k/zaim-cli/pkg/zaim"
 )
 
 func main() {

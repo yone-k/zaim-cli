@@ -17,9 +17,9 @@ builds:
       - v1
     ldflags:
       - -s -w
-      - -X github.com/yone/zaim-cli/internal/version.Version={{.Version}}
-      - -X github.com/yone/zaim-cli/internal/version.Commit={{.Commit}}
-      - -X github.com/yone/zaim-cli/internal/version.Date={{.Date}}
+      - -X github.com/yone-k/zaim-cli/internal/version.Version={{.Version}}
+      - -X github.com/yone-k/zaim-cli/internal/version.Commit={{.Commit}}
+      - -X github.com/yone-k/zaim-cli/internal/version.Date={{.Date}}
 
 archives:
   - formats:

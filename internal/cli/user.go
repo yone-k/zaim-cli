@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/yone/zaim-cli/internal/formatter"
+	"github.com/yone-k/zaim-cli/internal/formatter"
 )
 
 var userCmd = &cobra.Command{

@@ -1,4 +1,4 @@
-module github.com/yone/zaim-cli
+module github.com/yone-k/zaim-cli
 
 go 1.26.2
 
