@@ -17,17 +17,19 @@ export async function verifyOIDC(packageName, { env = process.env, fetchImpl = f
   });
   if (exchangeResponse.status !== 201) throw new Error(`npm OIDC exchange failed (HTTP ${exchangeResponse.status})`);
   const issued = await exchangeResponse.json();
-  if (issued.token_type !== 'oidc' || typeof issued.token !== 'string' || !issued.token || !(Date.parse(issued.expires) > Date.now())) {
-    throw new Error('npm did not issue a valid publishing token');
+  // npm CLI consumes response.token; token_type and expires are optional metadata.
+  if (typeof issued.token !== 'string' || !issued.token) {
+    throw new Error(`npm did not issue a valid publishing token (response fields: ${Object.keys(issued).join(', ')})`);
   }
   // The issued credential is deliberately excluded from output and logs.
-  return { packageName, expires: issued.expires };
+  const expires = Number.isFinite(Date.parse(issued.expires)) ? issued.expires : undefined;
+  return { packageName, expires };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     const verified = await verifyOIDC(process.argv[2] || '@yone_k/zaim-cli');
-    console.log(`npm OIDC publishing identity verified for ${verified.packageName} (expires ${verified.expires})`);
+    console.log(`npm OIDC publishing identity verified for ${verified.packageName}${verified.expires ? ` (expires ${verified.expires})` : ''}`);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
