@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/yone-k/go-zaim"
 	"github.com/yone-k/zaim-cli/internal/formatter"
-	"github.com/yone-k/zaim-cli/pkg/zaim"
 )
 
 var (

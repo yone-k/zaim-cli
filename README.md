@@ -1,6 +1,6 @@
 # zaim-cli
 
-Zaim家計簿APIを操作するCLIツール。Go SDKとCLIを提供。
+Zaim家計簿APIを操作するCLIツールです。
 
 ## インストール
 
@@ -12,7 +12,7 @@ npm install -g @yone_k/zaim-cli
 
 ### Go
 
-Go 1.26 以上が必要です。
+Go 1.26.2以上が必要です。
 
 ```bash
 go install github.com/yone-k/zaim-cli/cmd/zaim-cli@latest
@@ -87,62 +87,10 @@ zaim currency list
 - `ZAIM_ACCESS_TOKEN_SECRET`
 
 ## SDK
-`pkg/zaim` パッケージとして独立したGoクライアントライブラリも提供:
 
-```go
-import (
-    "context"
-    "fmt"
-    "log"
+Zaim APIとの通信には、独立したGo SDKの[go-zaim](https://github.com/yone-k/go-zaim) v0.1.0を使っています。
 
-    "github.com/yone-k/zaim-cli/pkg/zaim"
-)
-
-func main() {
-    client := zaim.New(zaim.OAuthConfig{
-        ConsumerKey:       "your-key",
-        ConsumerSecret:    "your-secret",
-        AccessToken:       "your-token",
-        AccessTokenSecret: "your-token-secret",
-    })
-
-    user, err := client.VerifyAuth(context.Background())
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Printf("User: %s (ID: %d)\n", user.Name, user.ID)
-}
-```
-
-### APIレスポンス全体の取得
-
-`Client.Request`は、SDKのOAuth署名とHTTP通信を使い、APIから返ったJSONを
-`json.RawMessage`として取得します。JSON内の小数や追加フィールドを保持します。
-GET・POST・PUT・DELETEに対応し、渡されたcontextで通信をキャンセルできます。
-
-```go
-response, err := client.Request(ctx, http.MethodGet, "/v2/home/money", map[string]string{
-    "limit": "20",
-    "page":  "1",
-})
-if err != nil {
-    return err
-}
-fmt.Printf("%s\n", response)
-```
-
-GETのパラメーターはクエリ、POST・PUTはフォームとして送ります。
-HTTPエラーは`*zaim.HTTPError`でステータスとレスポンス本文を参照できます。
-既存の型付きAPIメソッドの引数・戻り値とエラー表示は維持します。
-
-テスト用の接続先やHTTPクライアントは、追加コンストラクターで指定できます。
-
-```go
-client := zaim.NewWithOptions(config, zaim.ClientOptions{
-    BaseURL:    server.URL,
-    HTTPClient: server.Client(),
-})
-```
+GoアプリケーションからSDKを利用する場合は、[SDKのREADME](https://github.com/yone-k/go-zaim/blob/v0.1.0/README.md)を参照してください。
 
 ## ライセンス
 MIT

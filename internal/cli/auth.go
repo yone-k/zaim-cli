@@ -11,8 +11,8 @@ import (
 	"runtime"
 
 	"github.com/spf13/cobra"
+	"github.com/yone-k/go-zaim"
 	"github.com/yone-k/zaim-cli/internal/config"
-	"github.com/yone-k/zaim-cli/pkg/zaim"
 )
 
 var authCmd = &cobra.Command{

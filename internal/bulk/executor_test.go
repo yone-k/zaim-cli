@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/yone-k/zaim-cli/pkg/zaim"
+	"github.com/yone-k/go-zaim"
 )
 
 type mockClient struct {
