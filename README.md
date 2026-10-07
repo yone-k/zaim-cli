@@ -114,5 +114,35 @@ func main() {
 }
 ```
 
+### APIレスポンス全体の取得
+
+`Client.Request`は、SDKのOAuth署名とHTTP通信を使い、APIから返ったJSONを
+`json.RawMessage`として取得します。JSON内の小数や追加フィールドを保持します。
+GET・POST・PUT・DELETEに対応し、渡されたcontextで通信をキャンセルできます。
+
+```go
+response, err := client.Request(ctx, http.MethodGet, "/v2/home/money", map[string]string{
+    "limit": "20",
+    "page":  "1",
+})
+if err != nil {
+    return err
+}
+fmt.Printf("%s\n", response)
+```
+
+GETのパラメーターはクエリ、POST・PUTはフォームとして送ります。
+HTTPエラーは`*zaim.HTTPError`でステータスとレスポンス本文を参照できます。
+既存の型付きAPIメソッドの引数・戻り値とエラー表示は維持します。
+
+テスト用の接続先やHTTPクライアントは、追加コンストラクターで指定できます。
+
+```go
+client := zaim.NewWithOptions(config, zaim.ClientOptions{
+    BaseURL:    server.URL,
+    HTTPClient: server.Client(),
+})
+```
+
 ## ライセンス
 MIT
