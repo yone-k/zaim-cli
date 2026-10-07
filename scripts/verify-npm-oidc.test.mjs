@@ -41,3 +41,9 @@ test('successful HTTP with no issued token does not pass', async () => {
   let calls = 0;
   await assert.rejects(verifyOIDC('@yone_k/zaim-cli', { env, fetchImpl: async () => ++calls === 1 ? Response.json({ value: 'github-secret' }) : Response.json({ token_type: 'oidc' }, { status: 201 }) }), /valid publishing token/);
 });
+
+test('accepts the token response consumed by npm CLI without optional metadata', async () => {
+  let calls = 0;
+  const result = await verifyOIDC('@yone_k/zaim-cli', { env, fetchImpl: async () => ++calls === 1 ? Response.json({ value: 'github-secret' }) : Response.json({ token: 'npm-secret' }, { status: 201 }) });
+  assert.deepEqual(result, { packageName: '@yone_k/zaim-cli', expires: undefined });
+});
