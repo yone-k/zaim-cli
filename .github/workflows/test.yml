@@ -19,3 +19,10 @@ jobs:
 
       - name: Run tests
         run: go test ./...
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Test npm publishing scripts
+        run: node --test scripts/publish-npm.test.mjs scripts/verify-npm-oidc.test.mjs

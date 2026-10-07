@@ -44,12 +44,8 @@ VERSION="${VERSION#v}"
 echo "Publishing version: ${VERSION}"
 echo "Dry run: ${DRY_RUN}"
 
-# ---- 環境変数チェック ----------------------------------------------------
-if [[ "$DRY_RUN" == "false" && -z "${NODE_AUTH_TOKEN:-}" ]]; then
-  echo "Error: NODE_AUTH_TOKEN is not set" >&2
-  exit 1
-fi
-
+# npm CLI resolves GitHub OIDC or local login credentials. Publishing failures
+# are handled below; a stored NODE_AUTH_TOKEN is not required.
 # ---- 一時ディレクトリ ----------------------------------------------------
 WORK_DIR="$(mktemp -d)"
 trap 'rm -rf "$WORK_DIR"' EXIT
