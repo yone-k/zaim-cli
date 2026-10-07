@@ -18,11 +18,7 @@ type Client struct {
 }
 
 func New(config OAuthConfig) *Client {
-	return &Client{
-		oauthConfig: config,
-		baseURL:     defaultBaseURL,
-		httpClient:  http.DefaultClient,
-	}
+	return NewWithOptions(config, ClientOptions{})
 }
 
 func (c *Client) do(ctx context.Context, method string, path string, params map[string]string) (*http.Response, error) {
@@ -111,7 +107,7 @@ func (c *Client) do(ctx context.Context, method string, path string, params map[
 			return nil, fmt.Errorf("read error response: %w", readErr)
 		}
 
-		return nil, fmt.Errorf("request failed: status=%d body=%s", resp.StatusCode, strings.TrimSpace(string(body)))
+		return nil, &HTTPError{StatusCode: resp.StatusCode, Body: string(body)}
 	}
 
 	return resp, nil

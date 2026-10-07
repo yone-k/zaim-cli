@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 type mockHTTPClient struct {
@@ -101,7 +102,7 @@ func TestCheckForUpdate_shouldReturnNilWithoutCallingAPI_whenCheckedWithin24Hour
 
 	// Given: the cache says the last update check ran within the past 24 hours.
 	cacheFilePath := filepath.Join(t.TempDir(), "update-check.json")
-	cacheContent := `{"last_check":"2026-04-11T00:00:00Z"}`
+	cacheContent := `{"last_check":"` + time.Now().UTC().Add(-time.Hour).Format(time.RFC3339) + `"}`
 	if err := os.WriteFile(cacheFilePath, []byte(cacheContent), 0o600); err != nil {
 		t.Fatalf("WriteFile(cacheFilePath) error = %v", err)
 	}
