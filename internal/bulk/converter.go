@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/yone-k/zaim-cli/pkg/zaim"
+	"github.com/yone-k/go-zaim"
 )
 
 func ToCreatePaymentRequest(row Row) (*zaim.CreatePaymentRequest, error) {

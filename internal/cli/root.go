@@ -9,10 +9,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/yone-k/go-zaim"
 	"github.com/yone-k/zaim-cli/internal/config"
 	"github.com/yone-k/zaim-cli/internal/update"
 	"github.com/yone-k/zaim-cli/internal/version"
-	"github.com/yone-k/zaim-cli/pkg/zaim"
 )
 
 var (
